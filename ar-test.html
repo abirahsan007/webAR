@@ -7,7 +7,6 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="ios.js"></script>
-    <!--<script src="js/script.js" defer></script>-->
     
     <script>
       //Loads Videos
@@ -32,7 +31,7 @@
         },
       });
       // Handles Playing/Pausing (User must tap the screen once for the video[s] to play)
-      // Set up for multiple markers+videos later...
+      
       AFRAME.registerComponent('vidhandler', {
         schema: {
           videos: { type: 'string' }
