@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta charset="UTF-8">
+  
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="ios.js"></script>
+    <!--<script src="js/script.js" defer></script>-->
+    
+    <script>
+      //Loads Videos
+      AFRAME.registerComponent("vidloader", {
+        init: function () {
+          this.materialLoaded = this.materialLoaded.bind(this);
+          console.log("init");
+          // wait until the material is ready
+          this.el.addEventListener("loaded", this.materialLoaded);
+        },
+        materialLoaded: function () {
+          // grab the material
+          let material = this.el.getObject3D("mesh").material;
+          console.log(material.map.format);
+          // swap the format
+          material.map.format = THREE.RGBAFormat;
+          material.map.needsUpdate = true;
+          console.log(material.map);
+        },
+        remove: function () {
+          this.el.removeEventListener("loaded", this.materialLoaded);
+        },
+      });
+      // Handles Playing/Pausing (User must tap the screen once for the video[s] to play)
+      // Set up for multiple markers+videos later...
+      AFRAME.registerComponent('vidhandler', {
+        schema: {
+          videos: { type: 'string' }
+        },
+        init: function () {
+          this.clickCheck = false
+          this.videoNodes = document.querySelectorAll(this.data.videos)
+          document.body.addEventListener("click", e => {
+            this.clickCheck = true
+          });
+        },
+        //Handles playing marker-specifc videos
+        // tick: function () {
+        //   if (this.el.object3D.visible == true) {
+        //     if (!this.toggle && Boolean(this.clickCheck)) {
+        //       this.toggle = true;
+        //       for (let i = 0; i < this.videoNodes.length; i++) {
+        //         this.videoNodes[i].play();
+        //       }
+        //     }
+        //   } else {
+        //     if (this.toggle) {
+        //       for (let i = 0; i < this.videoNodes.length; i++) {
+        //         this.videoNodes[i].pause();
+        //       }
+        //       this.toggle = false;
+        //       this.clickCheck = false
+        //     }
+        //   }
+        // }
+      });
+    </script>
+  </head>
+  <body style="margin : 0px; overflow: hidden;">
+    <a-scene vr-mode-ui="enabled: false" embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
+        <a-assets>
+            <video  id="bunny-vid"
+                    loop="true"
+                    muted
+                    autoplay
+                    crossorigin="anonymous"
+                    src="https://khelowar.com/ar/m/gameplay.mp4"
+                    playsinline 
+                    webkit-playsinline>
+            </video>
+            
+           <audio id="sound" src="gameplay.mp3" preload="auto"></audio>
+           
+        </a-assets>
+        <a-marker type='barcode' value='6' vidhandler='videos: #bunny-vid'>
+        <a-video vidloader
+                 width="3"
+                 height="1.2"
+                 rotation="-90 0 0"
+                 position="0 2 0"
+                 scale="4 6 4"
+                 src="#bunny-vid"
+                 material="transparent: true">
+        </a-video>
+      </a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+    <script>
+    
+      window.addEventListener('touchstart', function () {
+                   var promise = document.querySelector('video').play();
+                   var promise1 = document.querySelector('audio').play();
+                  });
+       
+    </script>
+  </body>
+</html>
