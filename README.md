@@ -1,7 +1,7 @@
 # webAR
  implemenred augmented reality experience on web with arjs
 
-So an idea hit my head on how to take marketting or branding of a product/company to the next level !
+So an idea hit my head on how to take marketing or branding of a product/company to the next level !
 Here comes the idea of Augmented Reality experience of the product.
 The journey:
 step 1: Scan a QR Code (this will take u to the server and ask for ur camera permission.)
